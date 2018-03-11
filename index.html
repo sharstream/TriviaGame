@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Trivial Game</title>
+    <!-- Our CSS style sheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Script -->
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
+ 
+</head>
+
+<body>
+
+    <h1>Quiz Trivial questions on bootcamps</h1>
+
+    <div id="wrapper">
+
+        <div id="display">00:00</div>
+        <div id="buttons">
+            <button id="start">Start</button>
+            <button id="reset">Reset</button>
+        </div>
+
+        <div id="laps"></div>
+
+    </div>
+
+    <form id="question" name="question">
+
+        <p>What is the time complexity for bubble sort JS algorithm?</p>
+        <input type="radio" id="answer1" name="answer1" value="Ω(n)"> Ω(n)
+        <br>
+        <input type="radio" id="answer2" name="answer2" value="Θ(n log(n))"> Θ(n log(n))
+        <br>
+        <input type="radio" id="answer3" name="answer3" value="Θ(n+k)"> Θ(n+k)
+        <br>
+        <input type="radio" id="answer4" name="answer4" value="O(n)"> O(n)
+        <br>
+        <br>
+        <input id="check" type="button" value="Check!">
+        <br>
+        <input id="next" type="button" value="Next Page!">
+
+    </form>
+
+    <div id="after_submit">
+        <p id="number_correct">Correct: </p>
+        <p id="number_incorrect">Incorrect: </p>
+        <p id="number_unanswered">Unanswered: </p>
+    </div>
+
+</body>
+
+</html>

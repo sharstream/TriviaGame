@@ -1,0 +1,10 @@
+body {
+    background: url(../images/background.jpeg) no-repeat;
+    font-family: 'Lato', sans-serif;
+    background-position: 50% 50%;
+    background-clip: padding-box;
+}
+
+#after_submit {
+    visibility: hidden;
+}
