@@ -1,13 +1,7 @@
 window.onload = function () {
 
-    $("#reset").click(stopwatch.reset);
-    $("#start").click(stopwatch.start);
-
     $('#check').on('click', function() {
-        debugger
-        clearInterval(question);
-        startquestion();
-        
+        // debugger    
         var clicked = $(this); 
 
         var correct = 0;
@@ -51,39 +45,44 @@ window.onload = function () {
 
     $('#next').on('click', function(){
         alert("You want to move to the next page?");
+        clearInterval(intervalId);
+        startquestion();
     })
 };
 
+var question_count = 0;
+var intervalId;
 var questions = ['What is the time complexity for bubble sort JS algorithm?',
                 'What is the time complexity for insertion JS algorithm?',
                 'What is the time complexity for quick sort JS algorithm?'];
-var question;
 
 console.log(questions[0]);
 console.log(questions[1]);
 console.log(questions[2]);
 
-var count = 0;
+
 
 function displayquestion() {
     $('#question').html('<p>' + questions[0] + '</p>' +
-        '<input type = "radio" id = "ans" name = "answer1" value = "heart" > Ω(n)<br>' +
-        '<input type="radio" id="ans" name="answer1" value="hart"> Θ(n log(n))<br>' +
-        '<input type="radio" id="ans" name="answer1" value="wash"> Θ(n+k)<br>' +
-        '<input type="radio" id="ans" name="answer1" value="north"> O(n)<br>');
+        '<input type = "radio" id = "ans" name = "answer1" value = "Ω(n)" > Ω(n)<br>' +
+        '<input type="radio" id="ans" name="answer1" value="Θ(n log(n))"> Θ(n log(n))<br>' +
+        '<input type="radio" id="ans" name="answer1" value="Θ(n+k)"> Θ(n+k)<br>' +
+        '<input type="radio" id="ans" name="answer1" value="O(n)"> O(n)<br>');
 }
 
 function nextquestion() {
     count++;
 
-    $('#question').html('<p>'+questions[count]+'</p>'+
-        '<input type = "radio" id = "ans" name = "answer' + count +
-        ' value = "heart" > Ω(n)<br><input type="radio" id="ans" name="answer' + count +
-        ' value="hart"> Θ(n log(n))<br><input type="radio" id="ans" name="answer' + count +
-        ' value="wash"> Θ(n+k)<br><input type="radio" id="ans" name="answer' + count +
-        ' value="north"> O(n)<br>');
+    $('#question').html('<p>' + questions[question_count]+'</p>'+
+        '<input type = "radio" id = "answer' + question_count +
+        ' value = "Ω(n)">Ω(n)<br><input type="radio" id="answer' + question_count +
+        ' value="Θ(n log(n))">Θ(n log(n))<br><input type="radio" id="answer' + question_count +
+        ' value=Θ(n+k)">Θ(n+k)<br><input type="radio" id="answer' + question_count +
+        ' value="O(n)">O(n)<br>');
 
-    setTimeout(displayquestion, 1000*60);
+    $('#after_submit').css({'visibility':'hidden'});
+
+    setTimeout(startquestion, 1000*60);
 
     if (count === questions.length) {
 
@@ -92,60 +91,19 @@ function nextquestion() {
 }
 
 function startquestion() {
-    question = setInterval(nextquestion, 1000 * 60);
+    question = setInterval(nextquestion, 60000);
 }
 
-var intervalId;
-var clockRunning = false;
-var stopwatch = {
+var count = 60;
 
-    time: 0,
-    lap: 1,
+var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 
-    reset: function () {
-
-        stopwatch.time = 0;
-        stopwatch.lap = 1;
-
-        $('#display').text("00:00");
-
-        $('#laps').text("00:00");
-    },
-
-    start: function () {
-
-        clearInterval(intervalId);
-        if (!clockRunning) {
-            intervalId = setInterval(stopwatch.count, 1000);
-            clockRunning = true;
-        }
-
-    },
-
-    count: function () {
-
-        stopwatch.time++;
-        var currentTime = stopwatch.timeConverter(stopwatch.time);
-        $('#display').text(currentTime);
-    },
-
-    timeConverter: function (t) {
-        
-        var minutes = Math.floor(t / 60);
-        var seconds = t - (minutes * 60);
-
-        if (seconds < 10) {
-            seconds = "0" + seconds;
-        }
-
-        if (minutes === 0) {
-            minutes = "00";
-        }
-
-        else if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-
-        return minutes + ":" + seconds;
+function timer() {
+    count = count - 1;
+    if (count <= 0) {
+        clearInterval(counter);
+        return;
     }
-};
+
+    document.getElementById("timer").innerHTML = count + " secs"; // watch for spelling
+}
