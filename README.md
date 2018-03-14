@@ -1,8 +1,8 @@
-# Welcome to my TriviaGame
+# Welcome to my Space NASA Quiz
 A time game using JavaScript and jQuery.
 
 ## Overview
-In this assignment, You'll create a Trivia game using JavaScript for the logic and jQuery to manipulate HTML. Be sure to layout this app with valid HTML and stylish CSS.
+In this assignment, You'll create a Space NASA quiz using JavaScript for the logic and jQuery to manipulate HTML. Be sure to layout this app with valid HTML and stylish CSS.
 
 ### Installation requirements
 - jQuery 3.3.1
