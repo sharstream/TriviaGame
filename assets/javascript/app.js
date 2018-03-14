@@ -6,6 +6,10 @@ $(document).ready(function() {
     var question_number = 0;
     var count = 5;
     var timer_running = false;
+    var optcount = 0;
+    var correct = 0;
+    var incorrect = 0;
+    var unanswered = 0;
 
     var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 
@@ -65,58 +69,54 @@ $(document).ready(function() {
     // setQuiz();
     function countdown() {
         // debugger
+        reloadNextQuestion(timer_running);
         setTimeout(countdown, 1000);
         $('#timer').html('Time Remaining: ' + count + ' Seconds.');
         count--;
-        var hide = reloadNextQuestion(true);
+  
         if (count < 0) {
-            
+            // debugger
+            // reloadNextQuestion();
             count = 0;
-            question_number++;
-            if (question_number === 1 && hide) {
-                $('.question2').show();
-                $('.question1').hide();
-                $('.question3').hide();
-                $('.question4').hide();
-                $('.question5').hide();
-            }
-            if (question_number === 2 && hide) {
-                $('.question3').show();
-                $('.question1').hide();
-                $('.question2').hide();
-                $('.question4').hide();
-                $('.question5').hide();
-            }
-            if (question_number === 3 && hide) {
-                $('.question4').show();
-                $('.question1').hide();
-                $('.question2').hide();
-                $('.question3').hide();
-                $('.question5').hide();
-            }
-            if (question_number === 4 && hide) {
-                $('.question5').show();
-                $('.question1').hide();
-                $('.question2').hide();
-                $('.question3').hide();
-                $('.question4').hide();
-            }
         }
+
+        //increse the array index to jump to the another question
+        //remove the current question and answers and paste a new one   
     }
 
-    function reloadNextQuestion(reload) {
-        // count = number
-        $('.question2').hide();
-        $('.question3').hide();
-        $('.question4').hide();
-        $('.question5').hide();
-        return reload;
-        // $('.question').html("<p>" + questions[0].question + "</p>");
-        // var answer1 = $('.answers').html("<input type = 'radio' id = 'ans' name = 'answer1' value = " + questions[0].answers.a + " >");
-        // var answer2 = $('.answers').html("<input type = 'radio' id = 'ans' name = 'answer1' value = " + questions[0].answers.b + " >");
-        // var answer3 =  $('.answers').html("<input type = 'radio' id = 'ans' name = 'answer1' value = " + questions[0].answers.c + " >");
-        // var answer4 =  $('.answers').html("<input type = 'radio' id = 'ans' name = 'answer1' value = " + questions[0].answers.d + " >");
+    function createRadioElement(elem, label,checked) {
+        optcount = optcount + 1;
+        var id = 'option' + optcount;
+        var answer = 'answer' + optcount;
+        $('.options').append($('<input />', {
+            'class': id,
+            'type': 'radio',
+            'name': answer,
+            'value': '1'
+        }));
+        $('.options').append('<label for="' + id + '">'
+            + label + '</label><br />');
+    }
 
+    function reloadNextQuestion(load) {
+        
+        if (!load && question_number < questions.length) {
+            $('.question').text(questions[question_number].question);
+            // $('.option1').after(questions[question_number].answers.a);
+            // $('.option2').after(questions[question_number].answers.b);
+            // $('.option3').after(questions[question_number].answers.c);
+            optcount = 0;
+            createRadioElement($('.options'), questions[question_number].answers.a);
+            createRadioElement($('.options'), questions[question_number].answers.b);
+            createRadioElement($('.options'), questions[question_number].answers.c);
+            
+            timer_running = true;
+            question_number++;
+        }
+        else if(count === 0){
+            timer_running = false;
+            $('.options').children().remove();
+        }
         // countdown();
     }
 
@@ -127,47 +127,45 @@ $(document).ready(function() {
 
     redirect(3);
 
-    $('#check').on('click', function() {
-        // debugger    
-        var clicked = $(this); 
-        // setResult();
-        var correct = 0;
-        var incorrect = 0;
-        var unanswered = 0;
+    function answeredQuestion(){
 
-        var question1 = $('#answer1').val();
-        var question2 = $('#answer2').val();
-        var question3 = $('#answer3').val();
-        var question4 = $('#answer4').val();
+        var answer1 = ', ' + $('input[name="question1"]:checked').parent().text();
+        var answer2 = ', ' + $('input[name="question2"]:checked').parent().text();
+        var answer3 = ', ' + $('input[name="question3"]:checked').parent().text();
+        var answer4 = ', ' + $('input[name="question4"]:checked').parent().text();
+        var answer5 = ', ' + $('input[name="question5"]:checked').parent().text();
+
         // debugger
-        if (question1 === 'Ω(n)' && $('#answer1').is(':checked')) {
+        if (answer1 === questions[0].correctAnswer) {
             correct++;
         }
-        else if (question2 === 'Θ(n log(n))' && $('#answer2').is(':checked')) {
+        else if (answer2 === questions[1].correctAnswer) {
             correct++;
         }
-        else if (question3 === 'Θ(n+k)' && $('#answer3').is(':checked')) {
+        else if (answer3 === questions[2].correctAnswer) {
             correct++;
         }
-        else if (question4 === 'O(n)' && $('#answer4').is(':checked')) {
+        else if (answer4 === questions[3].correctAnswer) {
+            correct++;
+        }
+        else if (answer5 === questions[4].correctAnswer) {
             correct++;
         }
         else {
             incorrect++;
         }
+    }
+
+    $('#check').on('click', function() {
+        // debugger    
+        answeredQuestion();
         
         $('#number_correct').text('Correct: '+correct);
         $('#number_incorrect').text('Incorrect: '+incorrect);
         $('#number_unanswered').text('Unanswered: '+unanswered);
         $('#after_submit').css({'visibility':'visible'});
-
-        clicked.addClass('.sms').html('<p>' + ' You got correct: ' + correct +'</p><br><p>'+
-            ' You got incorrect: ' + incorrect +'</p><br><p>'+
-            ' You got unanswered: '+unanswered+'</p><br>').css({ 'font-size': '20px', 'color': 'red' });
-
-        console.log('correct: '+correct);
-        console.log('incorrect: ' + incorrect);
-        console.log('unanswered: ' + unanswered);
+        $('.progress')
+        
     });
 
     $('#next').on('click', function(){
