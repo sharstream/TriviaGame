@@ -1,5 +1,5 @@
 body {
-    background: url(../images/background.jpeg) no-repeat;
+    background: yellow;
     font-family: 'Lato', sans-serif;
     background-position: 50% 50%;
     background-clip: padding-box;
@@ -7,4 +7,42 @@ body {
 
 #after_submit {
     visibility: hidden;
+}
+
+.container {
+    transition: 2s all ease-in-out;
+    margin: 5% 0 5% 20%;
+    padding: 50px;
+    display: grid;
+    background-color: pink;
+    width: 40%;
+}
+
+.container #reset, #next, #check {
+    width: 10%;
+}
+
+#reset {
+    visibility: hidden;
+}
+
+.question1 {
+
+}
+.question2 {
+
+}
+.question3 {
+
+}
+.question4 {
+
+}
+.question5 {
+
+}
+
+.option:hover {
+    background: rgba(39, 67, 99, 0.25) !important;
+    color: white !important;
 }

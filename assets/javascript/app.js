@@ -1,9 +1,136 @@
-window.onload = function () {
+//Using few source code from the web site: https://www.sitepoint.com/simple-javascript-quiz/#demo
+$(document).ready(function() {
+    // global vars
+    var question_count = 3;
+    var intervalId;
+    var question_number = 0;
+    var count = 5;
+    var timer_running = false;
+
+    var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+
+    //objects
+    const myFirstQuestion = {
+        question: "1. What is the Great Red Spot?",
+        answers: {
+            a: "A smudge on the Hubble telescope",
+            b: "A storm on Saturn",
+            c: "A storm on Jupiter"
+        },
+        correctAnswer: 'c'
+    }
+
+    const mySecondQuestion = {
+        question: "2. How much would a 150-pound person weigh on Mars?",
+        answers: {
+            a: "174 pounds",
+            b: "102 pounds",
+            c: "57 pounds"
+        },
+        correctAnswer: 'c'
+    }
+
+    const myThirdQuestion = {
+        question: "3. About how long is a day on Saturn?",
+        answers: {
+            a: "10 hours and 47 minutes",
+            b: "11 hours and 47 minutes",
+            c: "12 hours and 47 minutes"
+        },
+        correctAnswer: 'a'
+    }
+
+    const myFourQuestion = {
+        question: "4. The temperature on this planet's surface is hot enough to melt lead. Which one is it?",
+        answers: {
+            a: "Venus",
+            b: "Earth",
+            c: "Mars"
+        },
+        correctAnswer: 'a'
+    }
+
+    const myFiveQuestion = {
+        question: "5. Which planet has the highest mountain and deepest valley in the solar system?",
+        answers: {
+            a: "Venus",
+            b: "Pluto",
+            c: "Earth"
+        },
+        correctAnswer: 'b'
+    }
+    var questions = [myFirstQuestion, mySecondQuestion, myThirdQuestion, myFourQuestion, myFiveQuestion];
+
+    // debugger
+    // setQuiz();
+    function countdown() {
+        // debugger
+        setTimeout(countdown, 1000);
+        $('#timer').html('Time Remaining: ' + count + ' Seconds.');
+        count--;
+        var hide = reloadNextQuestion(true);
+        if (count < 0) {
+            
+            count = 0;
+            question_number++;
+            if (question_number === 1 && hide) {
+                $('.question2').show();
+                $('.question1').hide();
+                $('.question3').hide();
+                $('.question4').hide();
+                $('.question5').hide();
+            }
+            if (question_number === 2 && hide) {
+                $('.question3').show();
+                $('.question1').hide();
+                $('.question2').hide();
+                $('.question4').hide();
+                $('.question5').hide();
+            }
+            if (question_number === 3 && hide) {
+                $('.question4').show();
+                $('.question1').hide();
+                $('.question2').hide();
+                $('.question3').hide();
+                $('.question5').hide();
+            }
+            if (question_number === 4 && hide) {
+                $('.question5').show();
+                $('.question1').hide();
+                $('.question2').hide();
+                $('.question3').hide();
+                $('.question4').hide();
+            }
+        }
+    }
+
+    function reloadNextQuestion(reload) {
+        // count = number
+        $('.question2').hide();
+        $('.question3').hide();
+        $('.question4').hide();
+        $('.question5').hide();
+        return reload;
+        // $('.question').html("<p>" + questions[0].question + "</p>");
+        // var answer1 = $('.answers').html("<input type = 'radio' id = 'ans' name = 'answer1' value = " + questions[0].answers.a + " >");
+        // var answer2 = $('.answers').html("<input type = 'radio' id = 'ans' name = 'answer1' value = " + questions[0].answers.b + " >");
+        // var answer3 =  $('.answers').html("<input type = 'radio' id = 'ans' name = 'answer1' value = " + questions[0].answers.c + " >");
+        // var answer4 =  $('.answers').html("<input type = 'radio' id = 'ans' name = 'answer1' value = " + questions[0].answers.d + " >");
+
+        // countdown();
+    }
+
+    function redirect(number) {
+        count = number;
+        countdown();
+    }
+
+    redirect(3);
 
     $('#check').on('click', function() {
         // debugger    
         var clicked = $(this); 
-
+        // setResult();
         var correct = 0;
         var incorrect = 0;
         var unanswered = 0;
@@ -12,17 +139,17 @@ window.onload = function () {
         var question2 = $('#answer2').val();
         var question3 = $('#answer3').val();
         var question4 = $('#answer4').val();
-
-        if (question1 === 'Ω(n)') {
+        // debugger
+        if (question1 === 'Ω(n)' && $('#answer1').is(':checked')) {
             correct++;
         }
-        else if (question2 === 'Ω(n)') {
+        else if (question2 === 'Θ(n log(n))' && $('#answer2').is(':checked')) {
             correct++;
         }
-        else if (question3 === 'Ω(n)') {
+        else if (question3 === 'Θ(n+k)' && $('#answer3').is(':checked')) {
             correct++;
         }
-        else if (question4 === 'O(n log(n))') {
+        else if (question4 === 'O(n)' && $('#answer4').is(':checked')) {
             correct++;
         }
         else {
@@ -46,64 +173,6 @@ window.onload = function () {
     $('#next').on('click', function(){
         alert("You want to move to the next page?");
         clearInterval(intervalId);
-        startquestion();
+        reloadNextQuestion();
     })
-};
-
-var question_count = 0;
-var intervalId;
-var questions = ['What is the time complexity for bubble sort JS algorithm?',
-                'What is the time complexity for insertion JS algorithm?',
-                'What is the time complexity for quick sort JS algorithm?'];
-
-console.log(questions[0]);
-console.log(questions[1]);
-console.log(questions[2]);
-
-
-
-function displayquestion() {
-    $('#question').html('<p>' + questions[0] + '</p>' +
-        '<input type = "radio" id = "ans" name = "answer1" value = "Ω(n)" > Ω(n)<br>' +
-        '<input type="radio" id="ans" name="answer1" value="Θ(n log(n))"> Θ(n log(n))<br>' +
-        '<input type="radio" id="ans" name="answer1" value="Θ(n+k)"> Θ(n+k)<br>' +
-        '<input type="radio" id="ans" name="answer1" value="O(n)"> O(n)<br>');
-}
-
-function nextquestion() {
-    count++;
-
-    $('#question').html('<p>' + questions[question_count]+'</p>'+
-        '<input type = "radio" id = "answer' + question_count +
-        ' value = "Ω(n)">Ω(n)<br><input type="radio" id="answer' + question_count +
-        ' value="Θ(n log(n))">Θ(n log(n))<br><input type="radio" id="answer' + question_count +
-        ' value=Θ(n+k)">Θ(n+k)<br><input type="radio" id="answer' + question_count +
-        ' value="O(n)">O(n)<br>');
-
-    $('#after_submit').css({'visibility':'hidden'});
-
-    setTimeout(startquestion, 1000*60);
-
-    if (count === questions.length) {
-
-        count = 0;
-    }
-}
-
-function startquestion() {
-    question = setInterval(nextquestion, 60000);
-}
-
-var count = 60;
-
-var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
-
-function timer() {
-    count = count - 1;
-    if (count <= 0) {
-        clearInterval(counter);
-        return;
-    }
-
-    document.getElementById("timer").innerHTML = count + " secs"; // watch for spelling
-}
+});
