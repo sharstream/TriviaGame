@@ -67,7 +67,7 @@ $(document).ready(function() {
         reloadNextQuestion(timer_running);
         timer = setTimeout(countdown, 1000);      
         if (count < 0) {
-            debugger
+            // debugger
             if (timer === 39) {
                 count = 15
             }
