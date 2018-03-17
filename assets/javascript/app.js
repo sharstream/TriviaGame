@@ -74,13 +74,13 @@ $(document).ready(function() {
             if (timer === 73) {
                 count = 15
             }
-            if (timer === 51) {
+            if (timer === 107) {
                 count = 15
             }
-            if (timer === 67) {
+            if (timer === 141) {
                 count = 15
             }
-            if (timer > 80) {
+            if (timer > 180) {
                 count = 0;
                 clearTimeout(timer);
                 answeredQuestion();
