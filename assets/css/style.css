@@ -1,5 +1,6 @@
 body {
-    background: yellow;
+    /* background: yellow; */
+    background: url(../images/space.jpg);
     font-family: 'Lato', sans-serif;
     background-position: 50% 50%;
     background-clip: padding-box;
@@ -18,6 +19,14 @@ body {
     width: 40%;
 }
 
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+    margin-left: 2%;
+}
+
 h1 {
     color: blue;
 }
@@ -27,8 +36,28 @@ h1 {
     margin-left: 40%;
 }
 
+.progress {
+    width: 7%;
+}
+
 #reset {
     visibility: hidden;
+}
+
+.radio-pink [type="radio"]:checked+label:after {
+    border-color: #e91e63;
+    background-color: #e91e63;
+}
+
+/*Gap*/
+
+.radio-pink-gap [type="radio"].with-gap:checked+label:before {
+    border-color: #e91e63;
+}
+
+.radio-pink-gap [type="radio"]:checked+label:after {
+    border-color: #e91e63;
+    background-color: #e91e63;
 }
 
 .question1 {

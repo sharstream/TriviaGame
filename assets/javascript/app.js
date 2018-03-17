@@ -10,6 +10,7 @@ $(document).ready(function() {
     var correct = 0;
     var incorrect = 0;
     var unanswered = 0;
+    var timer = 0;
 
     // var counter = setInterval(countdown, 1000); //1000 will  run it every 1 second
 
@@ -23,7 +24,6 @@ $(document).ready(function() {
         },
         correctAnswer: 'c'
     }
-
     const mySecondQuestion = {
         question: "2. How much would a 150-pound person weigh on Mars?",
         answers: {
@@ -33,7 +33,6 @@ $(document).ready(function() {
         },
         correctAnswer: 'c'
     }
-
     const myThirdQuestion = {
         question: "3. About how long is a day on Saturn?",
         answers: {
@@ -43,7 +42,6 @@ $(document).ready(function() {
         },
         correctAnswer: 'a'
     }
-
     const myFourQuestion = {
         question: "4. The temperature on this planet's surface is hot enough to melt lead. Which one is it?",
         answers: {
@@ -53,7 +51,6 @@ $(document).ready(function() {
         },
         correctAnswer: 'a'
     }
-
     const myFiveQuestion = {
         question: "5. Which planet has the highest mountain and deepest valley in the solar system?",
         answers: {
@@ -63,136 +60,103 @@ $(document).ready(function() {
         },
         correctAnswer: 'b'
     }
-
     var questions = [myFirstQuestion, mySecondQuestion, myThirdQuestion, myFourQuestion, myFiveQuestion];
 
-    // debugger
-    // setQuiz();
     function countdown() {
         // debugger
-
         reloadNextQuestion(timer_running);
-
-        var timer = setTimeout(countdown, 1000);
-        
+        timer = setTimeout(countdown, 1000);      
         if (count < 0) {
-            // debugger
-
-            // clearTimeout(timer);
-
-            if (timer === 7) {
-                count = 3
-            }
-
-            if (timer === 11) {
-                count = 3
-            }
-
-            if (timer === 15) {
-                count = 3
-            }
-
             if (timer === 19) {
-                count = 3
+                count = 15
             }
-
-            if (timer > 20) {
+            if (timer === 35) {
+                count = 15
+            }
+            if (timer === 51) {
+                count = 15
+            }
+            if (timer === 67) {
+                count = 15
+            }
+            if (timer > 80) {
                 count = 0;
+                clearTimeout(timer);
                 answeredQuestion();
                 $('.question').text("");
-                $('#prompt1').text("Quiz is Done!!!!") 
+                $('#prompt1').text("Well Done!!!!");
                 $('#prompt2').text("Click on Check button to display your final result: ");
+                $('#reset').css({ 'visibility': 'visible' });
             }
-
-            // countdown();
         }
-
         $('#timer').html('Time Remaining: ' + count + ' Seconds.');
-
         count--;
-
-        //increse the array index to jump to the another question
-        //remove the current question and answers and paste a new one   
     }
 
     function createRadioElement(elem, label,checked) {
-
         optcount = optcount + 1;
-
         var id = 'option' + optcount;
-
         var answer = 'answer' + optcount;
-
         $('.options').append($('<input />', {
             'class': id,
             'type': 'radio',
             'name': answer,
-            'value': '1'
+            'value': questions[question_number].correctAnswer
         }));
-
         $('.options').append('<label for="' + id + '">'
             + label + '</label><br />');
     }
 
-    function reloadNextQuestion(load) {
-        
+    function reloadNextQuestion(load) {       
         if (!load && question_number < questions.length) {
             $('.question').text(questions[question_number].question);
-            // $('.option1').after(questions[question_number].answers.a);
-            // $('.option2').after(questions[question_number].answers.b);
-            // $('.option3').after(questions[question_number].answers.c);
             optcount = 0;
-
             createRadioElement($('.options'), questions[question_number].answers.a);
-
             createRadioElement($('.options'), questions[question_number].answers.b);
-
-            createRadioElement($('.options'), questions[question_number].answers.c);
-            
+            createRadioElement($('.options'), questions[question_number].answers.c);         
             timer_running = true;
-
             question_number++;
         }
         else if(count === 0){
-
             timer_running = false;
-
             $('.question').text("");
-
             $('.options').children().remove();
+            $('#number_correct').css({ 'visibility': 'hidden' });
+            $('#number_incorrect').css({ 'visibility': 'hidden' });
+            $('#number_unanswered').css({ 'visibility': 'hidden' });
         }
-        // countdown();
     }
 
     function redirect(number) {
         count = number;
         countdown();
     }
-
-    redirect(3);
+    redirect(15);
 
     function answeredQuestion(){
+        // debugger
 
-        var answer1 = ', ' + $('input[name="question1"]:checked').parent().text();
-        var answer2 = ', ' + $('input[name="question2"]:checked').parent().text();
-        var answer3 = ', ' + $('input[name="question3"]:checked').parent().text();
-        var answer4 = ', ' + $('input[name="question4"]:checked').parent().text();
-        var answer5 = ', ' + $('input[name="question5"]:checked').parent().text();
+        var answer1 = $('label[for=option3]').text();
+        var answer2 = $('label[for=option3]').text();
+        var answer3 = $('label[for=option1]').text();
+        var answer4 = $('label[for=option1]').text();
+        var answer5 = $('label[for=option2]').text();
 
         // debugger
-        if (answer1 === questions[0].correctAnswer) {
+        var compareTo = questions[question_number - 1].answers.c;
+        if (answer1 === questions[question_number-1].answers.c) {
             correct++;
         }
-        else if (answer2 === questions[1].correctAnswer) {
+        else if (answer2 === questions[question_number-1].answers.c) {
             correct++;
         }
-        else if (answer3 === questions[2].correctAnswer) {
+        else if (answer3 === questions[question_number-1].answers.a) {
             correct++;
         }
-        else if (answer4 === questions[3].correctAnswer) {
+        else if (answer4 === questions[question_number-1].answers.a) {
             correct++;
         }
-        else if (answer5 === questions[4].correctAnswer) {
+        else if (answer5 === questions[question_number-1].answers.b) {
             correct++;
         }
         else {
@@ -202,21 +166,36 @@ $(document).ready(function() {
         $('.progress').text(+correct+"/5");
     }
 
+    function init() {
+        clearTimeout(timer);
+        timer = 0;
+        question_count = 3;
+        question_number = 0;
+        count = 15;
+        timer_running = false;
+        optcount = 0;
+        correct = 0;
+        incorrect = 0;
+        unanswered = 0;
+        $('#after_submit').css({ 'visibility': 'hidden' });
+        $('#prompt1').text("Well Done!!!!").css({ 'visibility': 'hidden' });
+        $('#prompt2').text("Click on Check button to display your final result: ").css({ 'visibility': 'hidden' });
+        $('#reset').css({ 'visibility': 'visible' }).css({ 'visibility': 'hidden' });  
+        redirect(15);
+    }
+
     $('#check').on('click', function(event) {
         // debugger    
         event.preventDefault();
-        answeredQuestion();
-        
-        $('#number_correct').text('Correct: '+correct);
-        $('#number_incorrect').text('Incorrect: '+incorrect);
-        $('#number_unanswered').text('Unanswered: '+unanswered);
-        $('#after_submit').css({'visibility':'visible'});
-        
+        answeredQuestion();  
+        $('#number_correct').text('Correct: ' + correct).css({'visibility':'visible'});
+        $('#number_incorrect').text('Incorrect: ' + incorrect).css({ 'visibility': 'visible' });
+        $('#number_unanswered').text('Unanswered: ' + unanswered).css({ 'visibility': 'visible' });
+        $('#after_submit').css({'visibility':'visible'});   
     });
 
-    $('#next').on('click', function(){
-        alert("You want to move to the next page?");
-        clearInterval(intervalId);
-        reloadNextQuestion();
+    $('#reset').on('click', function() {
+        // debugger
+        init();
     })
 });
