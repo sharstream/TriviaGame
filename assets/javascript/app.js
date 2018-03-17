@@ -67,17 +67,21 @@ $(document).ready(function() {
         reloadNextQuestion(timer_running);
         timer = setTimeout(countdown, 1000);      
         if (count < 0) {
-            // debugger
-            count = 15
-            if (timer > 180) {
+            debugger
+            
+            if (question_number === 4) {
                 count = 0;
                 clearTimeout(timer);
-                answeredQuestion();
+                // answeredQuestion();
                 $('.question').text("");
+                $('.options').children().remove();
                 $('#prompt1').text("Well Done!!!!");
                 $('#prompt2').text("Click on Check button to display your final result: ");
                 $('#reset').css({ 'visibility': 'visible' });
             }
+            else{
+                count = 15
+            }       
         }
         $('#timer').html('Time Remaining: ' + count + ' Seconds.');
         count--;
@@ -167,6 +171,8 @@ $(document).ready(function() {
         correct = 0;
         incorrect = 0;
         unanswered = 0;
+        $('.question').text("");
+        $('.options').children().remove();
         $('#after_submit').css({ 'visibility': 'hidden' });
         $('#prompt1').text("Well Done!!!!").css({ 'visibility': 'hidden' });
         $('#prompt2').text("Click on Check button to display your final result: ").css({ 'visibility': 'hidden' });
