@@ -71,7 +71,7 @@ $(document).ready(function() {
             if (timer === 39) {
                 count = 15
             }
-            if (timer === 35) {
+            if (timer === 73) {
                 count = 15
             }
             if (timer === 51) {
