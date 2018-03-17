@@ -68,18 +68,7 @@ $(document).ready(function() {
         timer = setTimeout(countdown, 1000);      
         if (count < 0) {
             // debugger
-            if (timer === 39) {
-                count = 15
-            }
-            if (timer === 73) {
-                count = 15
-            }
-            if (timer === 107) {
-                count = 15
-            }
-            if (timer === 141) {
-                count = 15
-            }
+            count = 15
             if (timer > 180) {
                 count = 0;
                 clearTimeout(timer);
