@@ -18,8 +18,13 @@ body {
     width: 40%;
 }
 
+h1 {
+    color: blue;
+}
+
 .container #reset, #next, #check {
-    width: 10%;
+    width: 18%;
+    margin-left: 40%;
 }
 
 #reset {

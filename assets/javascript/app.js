@@ -4,14 +4,14 @@ $(document).ready(function() {
     var question_count = 3;
     var intervalId;
     var question_number = 0;
-    var count = 5;
+    var count = 3;
     var timer_running = false;
     var optcount = 0;
     var correct = 0;
     var incorrect = 0;
     var unanswered = 0;
 
-    var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+    // var counter = setInterval(countdown, 1000); //1000 will  run it every 1 second
 
     //objects
     const myFirstQuestion = {
@@ -63,37 +63,73 @@ $(document).ready(function() {
         },
         correctAnswer: 'b'
     }
+
     var questions = [myFirstQuestion, mySecondQuestion, myThirdQuestion, myFourQuestion, myFiveQuestion];
 
     // debugger
     // setQuiz();
     function countdown() {
         // debugger
+
         reloadNextQuestion(timer_running);
-        setTimeout(countdown, 1000);
-        $('#timer').html('Time Remaining: ' + count + ' Seconds.');
-        count--;
-  
+
+        var timer = setTimeout(countdown, 1000);
+        
         if (count < 0) {
             // debugger
-            // reloadNextQuestion();
-            count = 0;
+
+            // clearTimeout(timer);
+
+            if (timer === 7) {
+                count = 3
+            }
+
+            if (timer === 11) {
+                count = 3
+            }
+
+            if (timer === 15) {
+                count = 3
+            }
+
+            if (timer === 19) {
+                count = 3
+            }
+
+            if (timer > 20) {
+                count = 0;
+                answeredQuestion();
+                $('.question').text("");
+                $('#prompt1').text("Quiz is Done!!!!") 
+                $('#prompt2').text("Click on Check button to display your final result: ");
+            }
+
+            // countdown();
         }
+
+        $('#timer').html('Time Remaining: ' + count + ' Seconds.');
+
+        count--;
 
         //increse the array index to jump to the another question
         //remove the current question and answers and paste a new one   
     }
 
     function createRadioElement(elem, label,checked) {
+
         optcount = optcount + 1;
+
         var id = 'option' + optcount;
+
         var answer = 'answer' + optcount;
+
         $('.options').append($('<input />', {
             'class': id,
             'type': 'radio',
             'name': answer,
             'value': '1'
         }));
+
         $('.options').append('<label for="' + id + '">'
             + label + '</label><br />');
     }
@@ -106,15 +142,23 @@ $(document).ready(function() {
             // $('.option2').after(questions[question_number].answers.b);
             // $('.option3').after(questions[question_number].answers.c);
             optcount = 0;
+
             createRadioElement($('.options'), questions[question_number].answers.a);
+
             createRadioElement($('.options'), questions[question_number].answers.b);
+
             createRadioElement($('.options'), questions[question_number].answers.c);
             
             timer_running = true;
+
             question_number++;
         }
         else if(count === 0){
+
             timer_running = false;
+
+            $('.question').text("");
+
             $('.options').children().remove();
         }
         // countdown();
@@ -154,17 +198,19 @@ $(document).ready(function() {
         else {
             incorrect++;
         }
+
+        $('.progress').text(+correct+"/5");
     }
 
-    $('#check').on('click', function() {
+    $('#check').on('click', function(event) {
         // debugger    
+        event.preventDefault();
         answeredQuestion();
         
         $('#number_correct').text('Correct: '+correct);
         $('#number_incorrect').text('Incorrect: '+incorrect);
         $('#number_unanswered').text('Unanswered: '+unanswered);
         $('#after_submit').css({'visibility':'visible'});
-        $('.progress')
         
     });
 
